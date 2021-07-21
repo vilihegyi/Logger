@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdarg.h>
 
-static const char *level_names[] = {
+static const char* level_names[] = {
     "TRACE",
     "DEBUG",
     "INFO",
@@ -15,8 +15,16 @@ static const char *level_names[] = {
 
 void _log(int logLevel, char const *fileName, int loggedLine, char const *message, ...)
 {
-    time_t currentTime = time(nullptr);
-    struct tm *localTime = localtime(&currentTime);
+    #ifdef _WIN32
+        struct tm currTime;
+        time_t currentTime = time(nullptr);
+        localtime_s(&currTime, &currentTime);
+        struct tm* localTime = &currTime;
+    #else
+        time_t currentTime = time(nullptr);
+        struct tm* localTime = localtime(&currentTime);
+    #endif
+
 
     char buffer[16];
     buffer[strftime(buffer, sizeof(buffer), "%H:%M:%S", localTime)] = '\0';
