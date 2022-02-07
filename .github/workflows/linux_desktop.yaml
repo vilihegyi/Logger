@@ -1,4 +1,4 @@
-name: Linux Desktop build
+name: Linux
 on:
   push:
     branches:
