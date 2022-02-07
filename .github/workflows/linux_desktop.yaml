@@ -1,0 +1,22 @@
+name: Linux Desktop build
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - '**'
+
+jobs:
+  linux:
+    name: Linux
+    runs-on: "ubuntu-20.04"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile sample App
+        shell: bash
+        run: |
+          gcc Logger.h Logger.cpp sample.cpp -o out
+      - name: Run sample app
+        run: |
+          ./out
